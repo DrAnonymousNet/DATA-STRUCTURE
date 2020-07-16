@@ -61,7 +61,7 @@ class CircularList:
         self.head = self.head.next
         self.length -=1
 
-    def removeNode(self, node):
+    def remove_node(self, node):
         if node == self.head:
             prev_node = self.tail_node().next
             prev_node.next = self.head.next
@@ -83,7 +83,7 @@ class CircularList:
             if counter == step:
                 counter = 0
                 print(str(curr_node.data) + " killed")
-                l.removeNode(curr_node)
+                l.remove_node(curr_node)
                 curr_node  = prev_node
                 if l.length == 1:
                     print(str(curr_node.data) + " Survived")
@@ -96,7 +96,7 @@ class CircularList:
 
 
 
-    def insertAt(self , item , index):
+    def insert(self , item , index):
         if self.head is None and index > 0:
             raise IndexError("OUT OF RANGE")
         elif index == 0  and self.head is None:
@@ -123,7 +123,7 @@ class CircularList:
         prev_node.next = curr_node
         self.length += 1
 
-    def removeIndex(self, index):
+    def remove_index(self, index):
         if index == 0 and self.head.next != self.head:
             self.remove_first()
             return
@@ -141,7 +141,7 @@ class CircularList:
         prev_node.next = curr_node.next
         self.length -= 1
 
-    def removeItem(self , item):
+    def remove_item(self , item):
         if self.head.data == item:
             self.remove_first()
             return
@@ -157,7 +157,7 @@ class CircularList:
         prev_node.next = curr_node.next
         self.length -= 1
 
-    def chopOffStart(self, index):
+    def chop_off_start(self, index):
         if index  == 0:
             self.remove_first()
             return
@@ -172,6 +172,35 @@ class CircularList:
         self.head = curr_node.next
         self.length -= index
 
+    def combine(self , lst):
+        curr_node = self.get_item(self.lenght-1)
+        curr_node.next = lst.head
+        self.lenght += lst.lenght
+
+    def rotate(self):
+        if self.head.next == self.head:
+            return
+        curr_node = self.head
+        while curr_node.next != self.head:
+            curr_node = curr_node.next
+        self.head = curr_node
+
+    def clear(self):
+        self.head = None
+        self.length = 0
+
+    def get_node_item(self, node):
+        if self.head == node:
+            return self.head
+        curr_node = self.head
+
+        while curr_node != Node:
+            curr_node = curr_node.next
+
+        if curr_node:
+            return curr_node
+        raise ValueError("Node Not Found")
+
     def __repr__(self):
         if self.length == 0:
             return "[]"
@@ -180,6 +209,22 @@ class CircularList:
         while curr_node.next != self.head:
             curr_node = curr_node.next
             print("," , curr_node.data, end= "")
-
-
         return " ]"
+    def __len__(self):
+        return self.length
+
+
+
+    def __eq__(self, lst):
+        if self.length != lst.length:
+            return False
+        curr_node = self.head
+        curr_node_1 = lst.head
+
+        while curr_node.next != self.head  and curr_node.data == curr_node_1.data:
+            if curr_node.data != curr_node_1.data:
+                return False
+            curr_node = curr_node.next
+            curr_node_1 = curr_node_1.next
+
+        return True
