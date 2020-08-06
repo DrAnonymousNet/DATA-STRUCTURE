@@ -1,4 +1,4 @@
-
+from LinkedList import LinkedList
 
 l = LinkedList()
 l.add_first(4)
